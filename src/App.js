@@ -11,15 +11,6 @@ let state = {
   play: false
 };
 
-
-const timeFormatter = () => {
-  const minutes = Math.floor(state.timeLeft / 60);
-  const seconds = state.timeLeft - minutes * 60;
-  const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-  return `${formattedMinutes}:${formattedSeconds}`;
-};
-
 const title = state.timingType === 'SESSION' ? 'Session' : 'Break';
 
 const handlebreakincrease = () => {
@@ -40,12 +31,26 @@ const handlebreakdecrease = () => {
   }
 }
 
+const timeFormatter = () => {
+  const minutes = Math.floor(state.timeLeft / 60);
+  const seconds = state.timeLeft - minutes * 60;
+  const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+  return `${formattedMinutes}:${formattedSeconds}`;
+};
+
 const handlesessionincrease = () => {
   if(state.num < 60) {
     let arr = [];
     arr.push(state.num);
     state.num = arr[0] + 1;
     document.getElementById('session-length').innerHTML = state.num;
+    state.timeLeft = state.timeLeft + 60;
+    const minutes = Math.floor(state.timeLeft / 60);
+    const seconds = state.timeLeft - minutes * 60;
+    const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    document.getElementById('time-left').innerHTML = `${formattedMinutes}:${formattedSeconds}`;
   }
 }
 
@@ -55,6 +60,12 @@ const handlesessiondecrease = () => {
     arr.push(state.num);
     state.num = arr[0] - 1;
     document.getElementById('session-length').innerHTML = state.num;
+    state.timeLeft = state.timeLeft - 60;
+    const minutes = Math.floor(state.timeLeft / 60);
+    const seconds = state.timeLeft - minutes * 60;
+    const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    document.getElementById('time-left').innerHTML = `${formattedMinutes}:${formattedSeconds}`;
   }
 }
 
